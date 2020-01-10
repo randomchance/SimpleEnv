@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Configuration>
+    <!-- ################ GLOBAL CONTROL DEFINITIONS ################ -->
+    <Controls>
+        <Control>
+            <Name>SimpleEnvTagParameterControl</Name>
+            <CustomControl>
+                <CustomEntries>
+                    <CustomEntry>
+                        <CustomItem>
+                            <ExpressionBinding>
+                                <ItemSelectionCondition>
+                                    <ScriptBlock>$_.Length -gt 0</ScriptBlock>
+                                </ItemSelectionCondition>
+                                <ScriptBlock>" TAGS: " + ($_.ForEach({"[$_]"})) -join ' '</ScriptBlock>
+                            </ExpressionBinding>
+                        </CustomItem>
+                    </CustomEntry>
+                </CustomEntries>
+            </CustomControl>
+        </Control>
+        <Control>
+            <Name>SimpleEnvMetadataParameterControl</Name>
+            <CustomControl>
+                <CustomEntries>
+                    <CustomEntry>
+                        <CustomItem>
+                            <ExpressionBinding>
+                                <ItemSelectionCondition>
+                                    <ScriptBlock> $_.Length -gt 0</ScriptBlock>
+                                </ItemSelectionCondition>
+                                <ScriptBlock> "{0:$GLOBAL:LogTimestampFormat}"-f $_ </ScriptBlock>
+                            </ExpressionBinding>
+                            <ExpressionBinding>
+                                <ItemSelectionCondition>
+                                    <ScriptBlock> [string]::IsNullOrWhiteSpace($GLOBAL:LogTimestampFormat)  </ScriptBlock>
+                                </ItemSelectionCondition>
+                                <ScriptBlock> "{0:d} {0:HH:mm:ss}"-f $_ </ScriptBlock>
+                            </ExpressionBinding>
+                        </CustomItem>
+                    </CustomEntry>
+                </CustomEntries>
+            </CustomControl>
+        </Control>
+        <Control>
+            <Name>SimpleEnvMetadataItemParameterControl</Name>
+            <CustomControl>
+                <CustomEntries>
+                    <CustomEntry>
+                        <CustomItem>
+                            <Frame>
+                                <RightIndent>4</RightIndent>
+                                <CustomItem>
+                                    <ExpressionBinding>
+                                        <ItemSelectionCondition>
+                                            <ScriptBlock>-not [string]::IsNullOrWhiteSpace($_)</ScriptBlock>
+                                        </ItemSelectionCondition>
+                                        <ScriptBlock>"`t$_"</ScriptBlock>
+                                    </ExpressionBinding>
+                                </CustomItem>
+                            </Frame>
+                        </CustomItem>
+                    </CustomEntry>
+                </CustomEntries>
+            </CustomControl>
+        </Control>
+    </Controls>
+
+
+    <ViewDefinitions>
+        <View>
+            <Name>
+            SimpleEnvServer
+            </Name>
+            <ViewSelectedBy>
+                <TypeName>SimpleEnvServer</TypeName>
+            </ViewSelectedBy>
+            <!-- <GroupBy>
+          <ScriptBlock>Split-Path -Parent $_.Path | %{ if([Version]::TryParse((Split-Path $_ -Leaf), [ref]$null)) { Split-Path -Parent $_} else {$_} } | Split-Path -Parent</ScriptBlock>
+          <CustomControlName>AvailableModules-GroupingFormat</CustomControlName>
+        </GroupBy> -->
+            <TableControl>
+                <AutoSize/>
+                <TableHeaders>
+                    <TableColumnHeader>
+                        <Label>Name</Label>
+                        <Alignment>Left</Alignment>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>ComputerName</Label>
+                        <Alignment>Left</Alignment>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>Environment</Label>
+                        <Alignment>Left</Alignment>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>Roles</Label>
+                        <!-- <Width>20</Width> -->
+                        <Alignment>Left</Alignment>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>Tags</Label>
+                        <!-- <Width>20</Width> -->
+                        <Alignment>Left</Alignment>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <!-- <Label>Message</Label> -->
+                        <!-- <Alignment>Left</Alignment> -->
+                    </TableColumnHeader>
+                </TableHeaders>
+                <TableRowEntries>
+                    <TableRowEntry>
+                        <TableColumnItems>
+                            <TableColumnItem>
+                                <PropertyName>Name</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>ComputerName</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>Environment</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>Roles</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>Tags</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>Properties</PropertyName>
+                            </TableColumnItem>
+                        </TableColumnItems>
+                    </TableRowEntry>
+                </TableRowEntries>
+            </TableControl>
+        </View>
+        <View>
+            <Name>SimpleEnvServer</Name>
+            <ViewSelectedBy>
+                <TypeName>SimpleEnvServer</TypeName>
+            </ViewSelectedBy>
+            <ListControl>
+                <ListEntries>
+                    <ListEntry>
+                        <ListItems>
+                            <ListItem>
+                                <PropertyName>Name</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                                <PropertyName>ComputerName</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                                <PropertyName>Environment</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                                <PropertyName>Roles</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                                <PropertyName>Tags</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                                <PropertyName>Properties</PropertyName>
+                            </ListItem>
+                        </ListItems>
+                    </ListEntry>
+                </ListEntries>
+            </ListControl>
+        </View>
+    </ViewDefinitions>
+</Configuration>
