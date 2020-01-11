@@ -12,14 +12,8 @@ function ClearEnvironment
         EnvironmentInfo  = @{ }
         Servers          = @()
     }
-    
+
     $Environment.SimpleEnvVersion = [string]$MyInvocation.MyCommand.Module.Version
 }
 
 ClearEnvironment
-
-
-
-
-
-
